@@ -22,6 +22,11 @@ function getWeather(lat, lng) {
     console.log(url);
     return axios.get(url)
         .then(res => res.data)
-        .then(data => data.main.temp)
-        .then(temp => (temp - 273.15).toFixed(0))
+        .then(data => {
+            return {
+                name: data.name,
+                temp: ((data.main.temp - 273.15).toFixed(0))
+            }
+        })
+        // .then(temp => (temp - 273.15).toFixed(0))
 }
