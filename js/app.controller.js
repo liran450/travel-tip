@@ -105,10 +105,6 @@ function onRemoveLoc(el) {
     console.log('remove');
 }
 
-function onGoToLoc() {
-    console.log('go to');
-
-}
 
 function onGetUserPos() {
     getPosition()
@@ -132,6 +128,18 @@ function onPanTo(lat = 35.6895, lng = 139.6917) {
     mapService.panTo(lat, lng);
 }
 
+function onGoToLoc(ev) {
+    ev.preventDefault();
 
+    var elInput = document.querySelector('.search')
 
-// function onGetLocs() {}
+    mapService.getLocationFromInput(elInput.value)
+        .then(obj => {
+            onPanTo(obj.lat, obj.lng)
+            onAddMarker(obj.lat, obj.lng)
+            onGetWeather(obj.lat, obj.lng).then(weather => locService.createLocation(obj.address, obj.lat, obj.lng, weather))
+            renderWeather(obj.address)
+            onGetLocs()
+        })
+}
+var hello = 'sahar-lo-limhok!!!!'
