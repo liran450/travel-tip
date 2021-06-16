@@ -17,6 +17,8 @@ function onInit() {
                 var lng = e.latLng.lng()
                 onPanTo(lat, lng);
                 onAddMarker(lat, lng)
+                onGetWeather(lat, lng)
+                
             })
         })
         .catch((e) => console.log('Error: cannot init map', e));
@@ -28,6 +30,10 @@ function getPosition() {
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
+}
+
+function onGetWeather(lat, lng) {
+    weatService.getWeather(lat, lng)
 }
 
 function onAddMarker(lat = 32.0749831, lng = 34.9120554) {
