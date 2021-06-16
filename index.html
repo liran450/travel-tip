@@ -14,16 +14,13 @@
             <h1>TravelTip</h1>
         </header>
         <form class="search-input" onsubmit="onGoToLoc(event)">
-            <input class="search" type="search">
-            <button class="show-my-loc">My Location</button>
+            <input class="search" type="search" placeholder="Search place">
+            <button class="show-my-loc">Go to</button>
         </form>
-        <button class="show-my-loc">My Location</button>
-
+        <button class="show-my-loc" onclick="onGetUserPos()">My Location</button>
 
         <div id="map"></div>
-        <!-- <p>You are at: <span class="user-pos">
-            </span></p>
-        <p>Locations: -->
+
         <div class="locs">
             <h2>Locations</h2>
             <table class="locs-table">
@@ -37,7 +34,6 @@
     <input class="link" type="text" value="https://liran450.github.io/travel-tip/index.html">
     <div>
         <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-        <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
         <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
         <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
         <button onclick="onCopyLink()" class="btn-copy-link">Copy Link</button>

@@ -11,6 +11,7 @@ window.onGetUserPos = onGetUserPos;
 window.onRemoveLoc = onRemoveLoc;
 window.onGoToLoc = onGoToLoc;
 window.onCopyLink = onCopyLink;
+window.onGoTo = onGoTo;
 
 const urlSearchParams = new URLSearchParams(window.location.search);
 const params = Object.fromEntries(urlSearchParams.entries());
@@ -18,7 +19,6 @@ const params = Object.fromEntries(urlSearchParams.entries());
 function onInit() {
     mapService.initMap(+params.lat, +params.lng)
         .then((map) => {
-            // console.log('Map is ready');
             map.addListener('click', function (e) {
                 console.log(e);
                 var name = prompt('Enter Name')
@@ -82,14 +82,26 @@ function onGetLocs() {
                 return ` <tr>
                 <td> ${loc.name}</td>
                 <td> ${loc.lat},\n${loc.lng}</td>
-                <td><button class="${loc.name}" onclick="onRemoveLoc(this)">Remove</button><button class="${loc.name}" onclick="onGoToLoc()">Go To</button></td>
+                <td><button class="${loc.name}" onclick="onRemoveLoc(this)">Remove</button><button class="${loc.name}" onclick="onGoTo(this)">Go To</button></td>
             </tr>`
             })
             document.querySelector('.locs-table').innerHTML = strHTML.join('')
         })
-
 }
 
+
+
+function onGoTo(el) {
+    locService.getLocs()
+        .then(locs => {
+            locs.forEach((loc, idx) => {
+                if (loc.name === el.classList[0]) {
+                    onPanTo(loc.lat, loc.lng);
+                    onAddMarker(loc.lat, loc.lng)
+                }
+            })
+        })
+}
 
 function onRemoveLoc(el) {
     console.log(el.classList[0]);
@@ -113,17 +125,14 @@ function onGetUserPos() {
     getPosition()
         .then(pos => {
             console.log('User position is:', pos.coords);
-            document.querySelector('.user-pos').innerText =
-                `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
+            onPanTo(pos.coords.latitude, pos.coords.longitude);
+            onAddMarker(pos.coords.latitude, pos.coords.longitude)
+                // document.querySelector('.user-pos').innerText =
+                //     `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
         })
         .catch(err => {
             console.log('err!!!', err);
         })
-}
-
-
-function onClickMap() {
-
 }
 
 function onPanTo(lat = 35.6895, lng = 139.6917) {
