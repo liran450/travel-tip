@@ -10,13 +10,16 @@ window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onRemoveLoc = onRemoveLoc;
 window.onGoToLoc = onGoToLoc;
+window.onCopyLink = onCopyLink;
+
+const urlSearchParams = new URLSearchParams(window.location.search);
+const params = Object.fromEntries(urlSearchParams.entries());
 
 function onInit() {
-    // var locs = storageService.load || []
-    mapService.initMap()
+    mapService.initMap(+params.lat, +params.lng)
         .then((map) => {
             // console.log('Map is ready');
-            map.addListener('click', function(e) {
+            map.addListener('click', function (e) {
                 console.log(e);
                 var name = prompt('Enter Name')
                 var lat = e.latLng.lat()
@@ -124,6 +127,7 @@ function onClickMap() {
 }
 
 function onPanTo(lat = 35.6895, lng = 139.6917) {
+    document.querySelector('.link').value = `https://liran450.github.io/travel-tip/index.html?lat=${lat}&lng=${lng}`
     console.log('Panning the Map');
     mapService.panTo(lat, lng);
 }
@@ -142,4 +146,17 @@ function onGoToLoc(ev) {
             onGetLocs()
         })
 }
-var hello = 'sahar-lo-limhok!!!!'
+
+
+{/* <input type="text" value="Hello World" id="myInput">
+<button onclick="myFunction()">Copy text</button> */}
+
+
+
+function onCopyLink() {
+    var copyText = document.querySelector('.link');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999)
+    document.execCommand("copy");
+    alert("Copied the text: " + copyText.value);
+}
