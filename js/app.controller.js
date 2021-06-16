@@ -6,13 +6,14 @@ window.onload = onInit;
 window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
+window.onGoToLoc = onGoToLoc;
 window.onGetUserPos = onGetUserPos;
 
 function onInit() {
     mapService.initMap()
         .then((map) => {
             console.log('Map is ready');
-            map.addListener('click', function(e) {
+            map.addListener('click', function (e) {
                 var name = prompt('Enter Name')
                 var lat = e.latLng.lat()
                 var lng = e.latLng.lng()
@@ -77,7 +78,7 @@ function onGetLocs() {
 
             console.log('Locations:', locs)
             document.querySelector('.locs-table').innerHTML = strHTML.join('')
-                // document.querySelector('.locs').innerText = JSON.stringify(locs)
+            // document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
 }
 
@@ -93,18 +94,23 @@ function onGetUserPos() {
         })
 }
 
-mapService.getMap()
-    .then(a => console.log(a))
-
-function onClickMap() {
-
-}
-
 function onPanTo(lat = 35.6895, lng = 139.6917) {
     console.log('Panning the Map');
     mapService.panTo(lat, lng);
 }
 
+function onGoToLoc(ev) {
+    ev.preventDefault();
 
+    var elInput = document.querySelector('.search')
 
-// function onGetLocs() {}
+    mapService.getLocationFromInput(elInput.value)
+        .then(obj => {
+            onPanTo(obj.lat, obj.lng)
+            onAddMarker(obj.lat, obj.lng)
+            onGetWeather(obj.lat, obj.lng).then(weather => locService.createLocation(obj.address, obj.lat, obj.lng, weather))
+            renderWeather(obj.address)
+            onGetLocs()
+        }
+        )
+}
