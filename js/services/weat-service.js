@@ -15,11 +15,6 @@ const API_KEY = '5cbb966e302dbebcf80f2eb4fa8eb883';
 
 
 
-
-// getWeather(37.2, 35.3)
-//     .then(console.log)
-//     .catch(console.log)
-
 function getWeather(lat, lng) {
     lat = lat.toFixed(1)
     lng = lng.toFixed(1)
@@ -27,4 +22,6 @@ function getWeather(lat, lng) {
     console.log(url);
     return axios.get(url)
         .then(res => res.data)
+        .then(data => data.main.temp)
+        .then(temp => (temp - 273.15).toFixed(0))
 }
