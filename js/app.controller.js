@@ -84,8 +84,6 @@ function onGetLocs() {
             })
             document.querySelector('.locs-table').innerHTML = strHTML.join('')
         })
-        // console.log('Locations:', locs)
-        // document.querySelector('.locs').innerText = JSON.stringify(locs)
 
 }
 
@@ -95,11 +93,10 @@ function onRemoveLoc(el) {
     locService.getLocs()
         .then(locs => {
             locs.forEach((loc, idx) => {
-                    if (loc.name === el.classList[0]) {
-                        locs.splice(idx, 1)
-                    }
-                })
-                // const newLocs = locs.filter(loc => !(loc.name === el.classList[0]))
+                if (loc.name === el.classList[0]) {
+                    locs.splice(idx, 1)
+                }
+            })
             console.log("newLocs", locs)
 
             storageService.save('location_DB', locs)
