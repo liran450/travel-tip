@@ -10,9 +10,11 @@ window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onRemoveLoc = onRemoveLoc;
 window.onGoToLoc = onGoToLoc;
+window.onGoTo = onGoTo;
 
 function onInit() {
-    // var locs = storageService.load || []
+    onGetLocs()
+    var locs = storageService.load || []
     mapService.initMap()
         .then((map) => {
             // console.log('Map is ready');
@@ -79,7 +81,7 @@ function onGetLocs() {
                 return ` <tr>
                 <td> ${loc.name}</td>
                 <td> ${loc.lat},\n${loc.lng}</td>
-                <td><button class="${loc.name}" onclick="onRemoveLoc(this)">Remove</button><button class="${loc.name}" onclick="onGoToLoc()">Go To</button></td>
+                <td><button class="${loc.name}" onclick="onRemoveLoc(this)">Remove</button><button class="${loc.name}" onclick="onGoTo(this)">Go To</button></td>
             </tr>`
             })
             document.querySelector('.locs-table').innerHTML = strHTML.join('')
@@ -87,6 +89,19 @@ function onGetLocs() {
 
 }
 
+
+
+function onGoTo(el) {
+    locService.getLocs()
+        .then(locs => {
+            locs.forEach((loc, idx) => {
+                if (loc.name === el.classList[0]) {
+                    onPanTo(loc.lat, loc.lng);
+                    onAddMarker(loc.lat, loc.lng)
+                }
+            })
+        })
+}
 
 function onRemoveLoc(el) {
     console.log(el.classList[0]);
@@ -110,8 +125,10 @@ function onGetUserPos() {
     getPosition()
         .then(pos => {
             console.log('User position is:', pos.coords);
-            document.querySelector('.user-pos').innerText =
-                `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
+            onPanTo(pos.coords.latitude, pos.coords.longitude);
+            onAddMarker(pos.coords.latitude, pos.coords.longitude)
+                // document.querySelector('.user-pos').innerText =
+                //     `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
         })
         .catch(err => {
             console.log('err!!!', err);

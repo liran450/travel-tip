@@ -17,7 +17,7 @@
             <input class="search" type="search">
             <button class="show-my-loc">My Location</button>
         </form>
-        <button class="show-my-loc">My Location</button>
+        <button class="show-my-loc" onclick="onGetUserPos()">My Location</button>
 
 
         <div id="map"></div>
@@ -37,7 +37,6 @@
 
     <div>
         <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-        <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
         <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
         <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
         <button onclick="onCopyLink()" class="btn-copy-link">Copy Link</button>

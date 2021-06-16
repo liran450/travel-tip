@@ -70,5 +70,3 @@ function getLocationFromInput(value) {
             lat: res.geometry.location.lat
         })
 }
-
-var hi = 'lo!!'
