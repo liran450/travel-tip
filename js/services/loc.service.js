@@ -11,16 +11,16 @@ const locs = [
 ]
 
 function createLocation(name, lat, lng, weather, updatedAt = null) {
-  locs.push({ 
-            id: utilService.makeId(),
-            name,
-            lat: lat.toFixed(6),
-            lng: lng.toFixed(6), 
-            weather,
-            createdAt: getCurrTime(),
-            updatedAt 
-        })
-        console.log(locs);
+    locs.push({
+        id: utilService.makeId(),
+        name,
+        lat: lat.toFixed(6),
+        lng: lng.toFixed(6),
+        weather,
+        createdAt: getCurrTime(),
+        updatedAt
+    })
+    console.log(locs);
 }
 
 function getLocs() {

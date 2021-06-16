@@ -25,6 +25,8 @@ function getWeather(lat, lng) {
         .then(data => {
             return {
                 name: data.name,
+                icon: data.weather[0].icon,
+                country: data.sys.country,
                 temp: ((data.main.temp - 273.15).toFixed(0))
             }
         })

@@ -4,32 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
     <title>TravelTip</title>
 </head>
 
 <body>
-    <header class="main-header">
-        <h1>TravelTip Starter</h1>
+    <main class="main-container">
+        <header class="main-header">
+            <h1>TravelTip</h1>
+        </header>
         <form class="search-input" onsubmit="onGoToLoc(event)">
-            <input type="search">
+            <input class="search" type="search">
+            <button class="show-my-loc">My Location</button>
         </form>
-        <button class="show-my-loc">My Location</button>
-    </header>
 
-    <div id="map" style="width: 100%; height: 400px;"></div>
-    <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-    <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
-    <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
-    <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
-    <button onclick="onCopyLink()" class="btn-copy-link">Copy Link</button>
 
-    <p>You are at: <span class="user-pos">
+        <div id="map"></div>
 
-        </span></p>
-    <p>Locations:
-        <table class="locs">
-        </table>
-    </p>
+
+        <!-- <p>You are at: <span class="user-pos">
+            </span></p>
+        <p>Locations: -->
+        <div class="locs">
+            <h2>Locations</h2>
+            <table class="locs-table">
+            </table>
+        </div>
+
+        <div class="weather-container">
+            <h2>Weather</h2>
+        </div>
+    </main>
+
+    <div>
+        <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
+        <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
+        <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
+        <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
+        <button onclick="onCopyLink()" class="btn-copy-link">Copy Link</button>
+    </div>
 
     <script src="lib/axios.js"></script>
     <script type="module" src="js/app.controller.js"></script>

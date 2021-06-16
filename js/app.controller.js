@@ -19,6 +19,8 @@ function onInit() {
                 onPanTo(lat, lng);
                 onAddMarker(lat, lng)
                 onGetWeather(lat, lng).then(weather => locService.createLocation(name, lat, lng, weather))
+                renderWeather(name)
+                onGetLocs()
             })
         })
         .catch((e) => console.log('Error: cannot init map', e));
@@ -32,6 +34,24 @@ function getPosition() {
     })
 }
 
+function renderWeather(name) {
+    locService.getLocs()
+        .then(locs => {
+            var strHTML;
+            locs.filter(loc => {
+                if (loc.name === name) {
+                    strHTML = `${loc.weather.country} </h1><h2>${loc.weather.name} </h2>
+                    <h3>${loc.weather.temp}</h3>
+                    <img src=http://openweathermap.org/img/w/${loc.weather.icon}.png>`
+                }
+                document.querySelector('.weather-container').innerHTML = strHTML
+            })
+
+            console.log('Locations:', locs)
+        })
+}
+
+
 function onGetWeather(lat, lng) {
     return weatService.getWeather(lat, lng)
 }
@@ -43,19 +63,20 @@ function onAddMarker(lat = 32.0749831, lng = 34.9120554) {
     mapService.addMarker({ lat: lat, lng: lng });
 }
 
+
 function onGetLocs() {
     locService.getLocs()
         .then(locs => {
             const strHTML = locs.map(loc => {
                 return ` <tr>
-                <td>${loc.name}</td>
-                <td>${loc.lat}</td>
-                <td>${loc.lng}</td>
+                <td>Name: ${loc.name}</td>
+                <td> ${loc.lat},\n${loc.lng}</td>
+                <td><button>Remove</button><button>Go TO</button></td>
             </tr>`
             })
 
             console.log('Locations:', locs)
-            document.querySelector('.locs').innerHTML = strHTML.join('')
+            document.querySelector('.locs-table').innerHTML = strHTML.join('')
                 // document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
 }
