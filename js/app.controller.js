@@ -1,18 +1,23 @@
 import { weatService } from './services/weat-service.js'
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
+import { storageService } from './services/storage-service.js'
 
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
+window.onRemoveLoc = onRemoveLoc;
+window.onGoToLoc = onGoToLoc;
 
 function onInit() {
+    // var locs = storageService.load || []
     mapService.initMap()
         .then((map) => {
-            console.log('Map is ready');
+            // console.log('Map is ready');
             map.addListener('click', function(e) {
+                console.log(e);
                 var name = prompt('Enter Name')
                 var lat = e.latLng.lat()
                 var lng = e.latLng.lng()
@@ -46,9 +51,10 @@ function renderWeather(name) {
                 }
                 document.querySelector('.weather-container').innerHTML = strHTML
             })
-
-            console.log('Locations:', locs)
         })
+
+    // console.log('Locations:', locs)
+
 }
 
 
@@ -65,20 +71,46 @@ function onAddMarker(lat = 32.0749831, lng = 34.9120554) {
 
 
 function onGetLocs() {
+    // const locs = storageService.load('location_DB')
+    // console.log(locs);
     locService.getLocs()
         .then(locs => {
             const strHTML = locs.map(loc => {
                 return ` <tr>
-                <td>Name: ${loc.name}</td>
+                <td> ${loc.name}</td>
                 <td> ${loc.lat},\n${loc.lng}</td>
-                <td><button>Remove</button><button>Go TO</button></td>
+                <td><button class="${loc.name}" onclick="onRemoveLoc(this)">Remove</button><button class="${loc.name}" onclick="onGoToLoc()">Go To</button></td>
             </tr>`
             })
-
-            console.log('Locations:', locs)
             document.querySelector('.locs-table').innerHTML = strHTML.join('')
-                // document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
+        // console.log('Locations:', locs)
+        // document.querySelector('.locs').innerText = JSON.stringify(locs)
+
+}
+
+
+function onRemoveLoc(el) {
+    console.log(el.classList[0]);
+    locService.getLocs()
+        .then(locs => {
+            locs.forEach((loc, idx) => {
+                    if (loc.name === el.classList[0]) {
+                        locs.splice(idx, 1)
+                    }
+                })
+                // const newLocs = locs.filter(loc => !(loc.name === el.classList[0]))
+            console.log("newLocs", locs)
+
+            storageService.save('location_DB', locs)
+            onGetLocs()
+        })
+    console.log('remove');
+}
+
+function onGoToLoc() {
+    console.log('go to');
+
 }
 
 function onGetUserPos() {
@@ -93,8 +125,6 @@ function onGetUserPos() {
         })
 }
 
-mapService.getMap()
-    .then(a => console.log(a))
 
 function onClickMap() {
 

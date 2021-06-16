@@ -4,6 +4,8 @@ export const weatService = {
     getWeather
 }
 
+import { storageService } from './storage-service.js'
+
 
 
 const locs = [
@@ -16,8 +18,13 @@ const API_KEY = '5cbb966e302dbebcf80f2eb4fa8eb883';
 
 
 function getWeather(lat, lng) {
+    // const locs = storageService.load||[]
     lat = lat.toFixed(1)
     lng = lng.toFixed(1)
+        // if(locs){
+        //     const newLocs = locs.filter(loc=> (loc.lat ===lat&& loc.lng ===lng))
+        //     return newLocs[0].weather
+        // }
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${API_KEY}`;
     console.log(url);
     return axios.get(url)
