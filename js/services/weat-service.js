@@ -1,3 +1,5 @@
+'use strict'
+
 export const weatService = {
     getWeather
 }
@@ -14,13 +16,13 @@ const API_KEY = '5cbb966e302dbebcf80f2eb4fa8eb883';
 
 
 
-getWeather(lat, lng)
-    .then(console.log)
-    .catch(console.log)
+// getWeather(37.2, 35.3)
+//     .then(console.log)
+//     .catch(console.log)
 
 function getWeather(lat, lng) {
-    const lat = locs[0].lat.toFixed(1)
-    const lng = locs[0].lng.toFixed(1)
+    lat = lat.toFixed(1)
+    lng = lng.toFixed(1)
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${API_KEY}`;
     console.log(url);
     return axios.get(url)

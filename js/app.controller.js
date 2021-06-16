@@ -13,12 +13,12 @@ function onInit() {
         .then((map) => {
             console.log('Map is ready');
             map.addListener('click', function(e) {
+                var name = prompt('Enter Name')
                 var lat = e.latLng.lat()
                 var lng = e.latLng.lng()
                 onPanTo(lat, lng);
                 onAddMarker(lat, lng)
-                onGetWeather(lat, lng)
-                
+                createLocation(name, lat, lng, onGetWeather(lat, lng))
             })
         })
         .catch((e) => console.log('Error: cannot init map', e));
