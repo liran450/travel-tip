@@ -1,4 +1,3 @@
-
 export const mapService = {
     initMap,
     addMarker,
@@ -7,6 +6,7 @@ export const mapService = {
 
 var gMap;
 
+
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap');
     return _connectGoogleApi()
@@ -14,9 +14,9 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
             console.log('google available');
             gMap = new google.maps.Map(
                 document.querySelector('#map'), {
-                center: { lat, lng },
-                zoom: 15
-            })
+                    center: { lat, lng },
+                    zoom: 15
+                })
             console.log('Map!', gMap);
         })
 }
@@ -39,8 +39,9 @@ function panTo(lat, lng) {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = ''; //TODO: Enter your API Key
+    const API_KEY = 'AIzaSyDo5CV8LZHlMGoyjo2qaDbYwjrlrs9zwEE'; //TODO: Enter your API Key
     var elGoogleApi = document.createElement('script');
+    console.log(API_KEY);
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
     elGoogleApi.async = true;
     document.body.append(elGoogleApi);
