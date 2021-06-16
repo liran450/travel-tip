@@ -8,17 +8,27 @@
 </head>
 
 <body>
-    <h2>assa</h2>
+    <header class="main-header">
+        <h1>TravelTip Starter</h1>
+        <form class="search-input"onsubmit="onGoToLoc(event)">
+            <input type="search">
+        </form>
+        <button class="show-my-loc">My Location</button>
+    </header>
 
-    <h1>TravelTip Starter</h1>
     <div id="map" style="width: 100%; height: 400px;"></div>
     <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
     <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
     <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
     <button onclick="onPanTo()" class="btn-pan">Pan Map to Tokyo</button>
+    <button onclick="onCopyLink()" class="btn-copy-link">Copy Link</button>
 
-    <p>You are at: <span class="user-pos"></span></p>
-    <p>Locations: <span class="locs"></span></p>
+    <p>You are at: <span class="user-pos">
+
+    </span></p>
+    <p>Locations: <span class="locs">
+
+    </span></p>
 
 
     <script type="module" src="js/app.controller.js"></script>
