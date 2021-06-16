@@ -14,7 +14,8 @@ window.onCopyLink = onCopyLink;
 window.onGoTo = onGoTo;
 
 const urlSearchParams = new URLSearchParams(window.location.search);
-const params = Object.fromEntries(urlSearchParams.entries());
+var params = Object.fromEntries(urlSearchParams.entries());
+if (Object.keys(params).length === 0) params = {lat: 32.0749831, lng: 34.9120554}
 
 function onInit() {
     mapService.initMap(+params.lat, +params.lng)
