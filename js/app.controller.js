@@ -1,3 +1,4 @@
+import { weatService } from './services/weat-service.js'
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 
@@ -31,8 +32,17 @@ function onAddMarker() {
 function onGetLocs() {
     locService.getLocs()
         .then(locs => {
+            const strHTML = locs.map(loc => {
+                return ` <tr>
+                <td>${loc.name}</td>
+                <td>${loc.lat}</td>
+                <td>${loc.lng}</td>
+            </tr>`
+            })
+
             console.log('Locations:', locs)
-            document.querySelector('.locs').innerText = JSON.stringify(locs)
+            document.querySelector('.locs').innerHTML = strHTML.join('')
+                // document.querySelector('.locs').innerText = JSON.stringify(locs)
         })
 }
 
@@ -52,5 +62,7 @@ function onPanTo() {
     console.log('Panning the Map');
     mapService.panTo(35.6895, 139.6917);
 }
+
+
 
 // function onGetLocs() {}
