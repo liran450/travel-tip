@@ -11,15 +11,16 @@ const locs = [
 
 const API_KEY = '5cbb966e302dbebcf80f2eb4fa8eb883';
 
-const lat = locs[0].lat.toFixed(1)
-const lng = locs[0].lng.toFixed(1)
 
 
-getWeather()
+
+getWeather(lat, lng)
     .then(console.log)
     .catch(console.log)
 
-function getWeather() {
+function getWeather(lat, lng) {
+    const lat = locs[0].lat.toFixed(1)
+    const lng = locs[0].lng.toFixed(1)
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${API_KEY}`;
     console.log(url);
     return axios.get(url)
