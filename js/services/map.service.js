@@ -1,8 +1,10 @@
+// import { axios } from "../../lib/axios";
+
 export const mapService = {
     initMap,
     addMarker,
     panTo,
-    getMap
+    getLocationFromInput
 }
 
 var gMap;
@@ -54,6 +56,17 @@ function _connectGoogleApi() {
     })
 }
 
-function getMap() {
-    return Promise.resolve(gMap)
+function getLocationFromInput(value) {
+    var valToArray = value.split(' ')
+    var valToString = valToArray.join('+')
+
+    var url = `https://maps.googleapis.com/maps/api/geocode/json?address=${valToString}&key=AIzaSyDo5CV8LZHlMGoyjo2qaDbYwjrlrs9zwEE`
+    return axios.get(url)
+        .then(res => res.data)
+        .then(data => data.results[0])
+        .then((res) => res = {
+            address: res.formatted_address,
+            lng: res.geometry.location.lng,
+            lat: res.geometry.location.lat
+        })
 }
