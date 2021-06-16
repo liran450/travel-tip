@@ -1,3 +1,8 @@
+export const storageService = {
+    loadFromStorage,
+    saveToStorage
+}
+
 function loadFromStorage(key) {
     var json = localStorage.getItem(key)
     var data = JSON.parse(json)

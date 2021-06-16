@@ -1,9 +1,11 @@
+import { storageService } from './storage-service.js'
 import { utilService } from './util-service.js'
 
 export const locService = {
     getLocs,
     createLocation
 }
+
 
 const locs = [
     { name: 'Greatplace', lat: 32.047104, lng: 34.832384 },

@@ -28,5 +28,4 @@ function getWeather(lat, lng) {
                 temp: ((data.main.temp - 273.15).toFixed(0))
             }
         })
-        // .then(temp => (temp - 273.15).toFixed(0))
 }
