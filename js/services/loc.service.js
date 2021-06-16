@@ -1,8 +1,9 @@
+import { utilService } from './util-service.js'
+
 export const locService = {
     getLocs,
     createLocation
 }
-import { utilService } from './services/util-service.js'
 
 const locs = [
     { name: 'Greatplace', lat: 32.047104, lng: 34.832384 },
@@ -13,12 +14,13 @@ function createLocation(name, lat, lng, weather, updatedAt = null) {
   locs.push({ 
             id: utilService.makeId(),
             name,
-            lat,
-            lng, 
+            lat: lat.toFixed(6),
+            lng: lng.toFixed(6), 
             weather,
             createdAt: getCurrTime(),
             updatedAt 
         })
+        console.log(locs);
 }
 
 function getLocs() {
