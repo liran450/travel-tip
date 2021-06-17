@@ -1,4 +1,4 @@
-import { weatService } from './services/weat-service.js'
+import {weatherService } from './services/weather-service.js'
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 import { storageService } from './services/storage-service.js'
@@ -15,24 +15,30 @@ window.onGoTo = onGoTo;
 
 const urlSearchParams = new URLSearchParams(window.location.search);
 var params = Object.fromEntries(urlSearchParams.entries());
-if (Object.keys(params).length === 0) params = {lat: 32.0749831, lng: 34.9120554}
+if (Object.keys(params).length === 0 ) params = {lat: 32.0749831, lng: 34.9120554}
+console.log(params);
 
 function onInit() {
     mapService.initMap(+params.lat, +params.lng)
-        .then((map) => {
-            map.addListener('click', function (e) {
-                console.log(e);
-                var name = prompt('Enter Name')
-                var lat = e.latLng.lat()
-                var lng = e.latLng.lng()
-                onPanTo(lat, lng);
-                onAddMarker(lat, lng)
-                onGetWeather(lat, lng).then(weather => locService.createLocation(name, lat, lng, weather))
-                renderWeather(name)
-                onGetLocs()
-            })
-        })
+        .then(addMapListener)
         .catch((e) => console.log('Error: cannot init map', e));
+}
+
+function addMapListener(map) {
+    map.addListener('click', function (e) {
+        onClickMap(e)
+    })
+}
+
+function onClickMap(e) {
+    var name = prompt('Enter Name')
+    var lat = e.latLng.lat()
+    var lng = e.latLng.lng()
+    onPanTo(lat, lng);
+    onAddMarker(lat, lng)
+    onGetWeather(lat, lng).then(weather => locService.createLocation(name, lat, lng, weather))
+    renderWeather(name)
+    onGetLocs()
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -63,7 +69,7 @@ function renderWeather(name) {
 
 
 function onGetWeather(lat, lng) {
-    return weatService.getWeather(lat, lng)
+    return weatherService.getWeather(lat, lng)
 }
 // onGetWeather(lat, lng).then(weather => locService.createLocation(name, lat, lng, weather))
 
@@ -75,8 +81,6 @@ function onAddMarker(lat = 32.0749831, lng = 34.9120554) {
 
 
 function onGetLocs() {
-    // const locs = storageService.load('location_DB')
-    // console.log(locs);
     locService.getLocs()
         .then(locs => {
             const strHTML = locs.map(loc => {
@@ -105,7 +109,7 @@ function onGoTo(el) {
 }
 
 function onRemoveLoc(el) {
-    console.log(el.classList[0]);
+    // console.log(el.classList[0]);
     locService.getLocs()
         .then(locs => {
             locs.forEach((loc, idx) => {

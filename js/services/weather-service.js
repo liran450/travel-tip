@@ -1,6 +1,6 @@
 'use strict'
 
-export const weatService = {
+export const weatherService = {
     getWeather
 }
 

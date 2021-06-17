@@ -47,6 +47,7 @@ body {
     background-color: rgb(160, 195, 255);
     grid-row: 3/5;
     grid-column: 1/2;
+    overflow: auto;
 }
 
 .search-input {
